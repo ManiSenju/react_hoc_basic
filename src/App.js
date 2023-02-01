@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react'
+import List from './List'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function App () {
+    const [loading, setLoading] = useState(true)
+    const [users, setUsers] = useState([])
+
+    useEffect(()=> {
+        fetch('http://jsonplaceholder.typicode.com/users')
+        .then(resp => resp.json())
+        .then(data => {
+            setLoading(false)
+            setUsers(data)
+        })
+    },[])
+    return <>
+        <div>
+            <List loading={loading} users={users}/>
+        </div>
+    </>
 }
 
-export default App;
+export default App
